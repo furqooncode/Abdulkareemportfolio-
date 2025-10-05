@@ -2,6 +2,7 @@
 const sidemenu = document.getElementById('sidemenu');
 const closeBtn = document.getElementById('closeBtn');
 
+
 function showmenu() {
   sidemenu.style.display = sidemenu.style.display === 'block' ? 'none' : 'block' ;
 }
@@ -22,6 +23,20 @@ menuLinks.forEach(link => {
 
 function go(e) {
   e.preventDefault();
+  const loadingText = document.getElementById('loadingText');
+const loading = document.getElementById('loading');
+const success = document.getElementById('success');
+const successText = document.getElementById('successText');
+const pop = document.getElementById('pop');
+const fail = document.getElementById('fail');
+
+
+    pop.style.display = 'block';
+    loading.style.display = 'block';
+    success.style.display = 'none';
+    fail.style.display = 'none';
+    loadingText.textContent = 'sending...'
+    successText.textContent = 'Hold on tight your message will be sent soon'
 
   let mail = {
     name: document.getElementById('firstname').value + ' ' + document.getElementById('secondname').value,
@@ -32,17 +47,31 @@ function go(e) {
 
   emailjs.send("service_puzkmot", "template_59g51oq", mail)
     .then(() => {
-      alert('Your mail has been sent!!');
-      const inputs = document.querySelectorAll('input, textarea');
+   success.style.display = 'block';
+  loading.style.display = 'none';
+  fail.style.display = 'none'
+  successText.textContent = 'Thank you ,Sent successfully!!';
+  loadingText.textContent = 'Your message has been sent successful to Abdulkareem Ayomide!!!'
+  setTimeout(()=> {
+    pop.style.display = 'none';
+  },3000)
+const inputs = document.querySelectorAll('input, textarea');
       inputs.forEach(field => {
         field.value = ''
      })
     })
     .catch((error) => {
       console.error("Failed to send email:", error);
-      alert("Failed to send email. Try again.");
+      fail.style.display = 'block';
+      loading.style.display = 'none';
+      success.style.display = 'none';
+      loadingText.textContent = 'Unable to send Message to Abdulkareem Ayomide 😔';
+      successText.textContent = 'Oops error occured while sending your mail please try again!!';
+      setTimeout(()=>{
+        pop.style.display = 'none';
+      },3000)
+      
     });
-    alert(`hello ${mail.name} your mail will be sent soon`)
 }
 
 function hide(param) {
